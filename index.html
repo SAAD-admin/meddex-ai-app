@@ -3,72 +3,353 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Meddex AI — DeepSeek V3</title>
+    <title>Meddex AI — Sun'iy Intellekt</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* ===== GLOBAL ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 16px; background: #080b12; overflow: hidden; position: relative; }
-        body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(30,80,255,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(120,80,255,0.05) 0%, transparent 50%), radial-gradient(ellipse at 50% 100%, rgba(0,200,255,0.03) 0%, transparent 40%); z-index: 0; pointer-events: none; }
-        .bg-text { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: clamp(100px, 25vw, 280px); font-weight: 900; color: rgba(255,255,255,0.02); letter-spacing: 16px; text-transform: uppercase; font-family: 'Inter', sans-serif; pointer-events: none; user-select: none; z-index: 0; white-space: nowrap; text-shadow: 0 0 80px rgba(60,140,255,0.05), 0 0 160px rgba(60,140,255,0.02); animation: pulseGlow 6s ease-in-out infinite; }
-        @keyframes pulseGlow { 0% { text-shadow: 0 0 80px rgba(60,140,255,0.05), 0 0 160px rgba(60,140,255,0.02); } 50% { text-shadow: 0 0 120px rgba(100,180,255,0.08), 0 0 240px rgba(60,140,255,0.04); } 100% { text-shadow: 0 0 80px rgba(60,140,255,0.05), 0 0 160px rgba(60,140,255,0.02); } }
-        .glass-card { position: relative; z-index: 1; max-width: 480px; width: 100%; background: rgba(12,18,30,0.60); backdrop-filter: blur(20px); border-radius: 48px; padding: 32px 24px 28px; border: 1px solid rgba(80,160,255,0.08); box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(60,140,255,0.04) inset; }
-        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-        .header-left { display: flex; align-items: center; gap: 14px; }
-        .avatar { width: 54px; height: 54px; background: linear-gradient(135deg, #1a4cff, #6a8cff, #a78bfa); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 20px rgba(30,80,255,0.25); flex-shrink: 0; animation: avatarGlow 3s ease-in-out infinite; }
-        @keyframes avatarGlow { 0% { box-shadow: 0 4px 20px rgba(30,80,255,0.25); } 50% { box-shadow: 0 4px 40px rgba(60,140,255,0.35); } 100% { box-shadow: 0 4px 20px rgba(30,80,255,0.25); } }
-        .title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(to right, #c8daff, #7aa3ff, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .badge { background: linear-gradient(135deg, rgba(60,140,255,0.12), rgba(167,139,250,0.08)); padding: 5px 14px; border-radius: 40px; font-size: 11px; font-weight: 600; color: #8ab4ff; border: 1px solid rgba(60,140,255,0.08); white-space: nowrap; backdrop-filter: blur(4px); }
-        #chat { background: rgba(0,0,0,0.20); border-radius: 24px; padding: 20px 18px; min-height: 320px; max-height: 420px; overflow-y: auto; margin-bottom: 20px; font-size: 15px; line-height: 1.7; border: 1px solid rgba(255,255,255,0.03); scroll-behavior: smooth; position: relative; z-index: 2; box-shadow: inset 0 0 40px rgba(0,0,0,0.1); }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            background: #080b12;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ===== ANIMATSIYALI FON ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(30,80,255,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(120,80,255,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(0,200,255,0.04) 0%, transparent 40%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== YULDUZLAR ===== */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.15), transparent),
+                radial-gradient(2px 2px at 30% 70%, rgba(255,255,255,0.10), transparent),
+                radial-gradient(2px 2px at 50% 10%, rgba(255,255,255,0.18), transparent),
+                radial-gradient(2px 2px at 70% 80%, rgba(255,255,255,0.08), transparent),
+                radial-gradient(2px 2px at 90% 40%, rgba(255,255,255,0.12), transparent),
+                radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.20), transparent),
+                radial-gradient(1px 1px at 85% 15%, rgba(255,255,255,0.14), transparent);
+            background-size: 300px 300px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== ORQA FONDAGI "SAAD" ===== */
+        .bg-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(120px, 28vw, 320px);
+            font-weight: 900;
+            color: rgba(255,255,255,0.015);
+            letter-spacing: 20px;
+            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+            white-space: nowrap;
+            text-shadow: 0 0 80px rgba(60,140,255,0.04), 0 0 160px rgba(60,140,255,0.02);
+            animation: pulseGlow 8s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 80px rgba(60,140,255,0.04), 0 0 160px rgba(60,140,255,0.02); }
+            50% { text-shadow: 0 0 120px rgba(100,180,255,0.07), 0 0 240px rgba(60,140,255,0.04); }
+            100% { text-shadow: 0 0 80px rgba(60,140,255,0.04), 0 0 160px rgba(60,140,255,0.02); }
+        }
+
+        /* ===== GLASS KARTA ===== */
+        .glass-card {
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+            width: 100%;
+            background: rgba(10,16,28,0.55);
+            backdrop-filter: blur(24px) saturate(1.2);
+            -webkit-backdrop-filter: blur(24px) saturate(1.2);
+            border-radius: 56px;
+            padding: 36px 28px 32px;
+            border: 1px solid rgba(80,160,255,0.06);
+            box-shadow:
+                0 40px 100px rgba(0,0,0,0.7),
+                0 0 0 1px rgba(60,140,255,0.03) inset,
+                0 0 60px rgba(60,140,255,0.02);
+            transition: all 0.4s ease;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1a4cff, #6a8cff, #a78bfa);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 30px rgba(30,80,255,0.2);
+            flex-shrink: 0;
+            animation: avatarGlow 3s ease-in-out infinite;
+        }
+        @keyframes avatarGlow {
+            0% { box-shadow: 0 4px 20px rgba(30,80,255,0.2); }
+            50% { box-shadow: 0 4px 50px rgba(60,140,255,0.4); }
+            100% { box-shadow: 0 4px 20px rgba(30,80,255,0.2); }
+        }
+        .title {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #c8daff, #7aa3ff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .badge {
+            background: linear-gradient(135deg, rgba(60,140,255,0.10), rgba(167,139,250,0.06));
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #8ab4ff;
+            border: 1px solid rgba(60,140,255,0.06);
+            white-space: nowrap;
+            backdrop-filter: blur(4px);
+            letter-spacing: 0.4px;
+        }
+
+        /* ===== CHAT ===== */
+        #chat {
+            background: rgba(0,0,0,0.18);
+            border-radius: 28px;
+            padding: 24px 20px;
+            min-height: 340px;
+            max-height: 440px;
+            overflow-y: auto;
+            margin-bottom: 22px;
+            font-size: 15px;
+            line-height: 1.8;
+            border: 1px solid rgba(255,255,255,0.02);
+            scroll-behavior: smooth;
+            position: relative;
+            z-index: 2;
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.15);
+        }
         #chat::-webkit-scrollbar { width: 4px; }
         #chat::-webkit-scrollbar-track { background: transparent; }
         #chat::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #2a4a7a, #4a6aaa); border-radius: 20px; }
-        .msg { margin-bottom: 14px; animation: fadeUp 0.3s ease; }
+
+        .msg {
+            margin-bottom: 16px;
+            animation: fadeUp 0.35s ease;
+        }
         .msg:last-child { margin-bottom: 0; }
-        .msg .meddex { color: #7aa3ff; font-weight: 700; letter-spacing: 0.2px; text-shadow: 0 0 20px rgba(60,140,255,0.1); }
-        .msg .user { color: #c8d6f0; font-weight: 600; }
-        .msg .text { display: inline-block; background: rgba(255,255,255,0.03); padding: 5px 14px 5px 6px; border-radius: 14px 14px 14px 4px; border-left: 2px solid rgba(60,140,255,0.15); }
-        .msg.user-msg .text { background: rgba(60,140,255,0.06); border-radius: 14px 14px 4px 14px; border-left: 2px solid rgba(167,139,250,0.15); }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        .input-row { display: flex; gap: 10px; background: rgba(0,0,0,0.30); border-radius: 60px; padding: 4px 4px 4px 20px; border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(8px); transition: all 0.25s ease; }
-        .input-row:focus-within { border-color: rgba(60,140,255,0.20); background: rgba(0,0,0,0.35); box-shadow: 0 0 30px rgba(60,140,255,0.03); }
-        input { flex: 1; padding: 14px 0; border: none; background: transparent; color: #f0f4ff; font-size: 16px; outline: none; font-family: 'Inter', sans-serif; min-width: 0; }
-        input::placeholder { color: #5b6d8a; font-weight: 400; font-size: 15px; }
-        button { padding: 13px 24px; border-radius: 40px; border: none; background: linear-gradient(135deg, #1a4cff, #3b72ff, #6a8cff); color: white; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 20px rgba(30,80,255,0.15); flex-shrink: 0; font-family: 'Inter', sans-serif; letter-spacing: 0.3px; }
-        button:hover { transform: scale(1.02); box-shadow: 0 6px 30px rgba(30,80,255,0.25); }
+        .msg .meddex {
+            color: #7aa3ff;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            text-shadow: 0 0 30px rgba(60,140,255,0.08);
+        }
+        .msg .user {
+            color: #c8d6f0;
+            font-weight: 600;
+        }
+        .msg .text {
+            display: inline-block;
+            background: rgba(255,255,255,0.02);
+            padding: 6px 16px 6px 8px;
+            border-radius: 16px 16px 16px 4px;
+            border-left: 2px solid rgba(60,140,255,0.10);
+        }
+        .msg.user-msg .text {
+            background: rgba(60,140,255,0.04);
+            border-radius: 16px 16px 4px 16px;
+            border-left: 2px solid rgba(167,139,250,0.10);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== INPUT ===== */
+        .input-row {
+            display: flex;
+            gap: 12px;
+            background: rgba(0,0,0,0.25);
+            border-radius: 60px;
+            padding: 4px 4px 4px 24px;
+            border: 1px solid rgba(255,255,255,0.03);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+        .input-row:focus-within {
+            border-color: rgba(60,140,255,0.15);
+            background: rgba(0,0,0,0.30);
+            box-shadow: 0 0 40px rgba(60,140,255,0.02);
+        }
+        input {
+            flex: 1;
+            padding: 16px 0;
+            border: none;
+            background: transparent;
+            color: #f0f4ff;
+            font-size: 16px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            min-width: 0;
+        }
+        input::placeholder {
+            color: #5b6d8a;
+            font-weight: 400;
+            font-size: 15px;
+        }
+        button {
+            padding: 14px 28px;
+            border-radius: 40px;
+            border: none;
+            background: linear-gradient(135deg, #1a4cff, #3b72ff, #6a8cff);
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 24px rgba(30,80,255,0.12);
+            flex-shrink: 0;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.3px;
+        }
+        button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 40px rgba(30,80,255,0.20);
+        }
         button:active { transform: scale(0.95); opacity: 0.85; }
-        .footer { display: flex; justify-content: space-between; margin-top: 18px; font-size: 12px; color: #4b5b78; letter-spacing: 0.2px; }
-        .footer span { display: flex; align-items: center; gap: 8px; }
-        .dot { display: inline-block; width: 8px; height: 8px; background: linear-gradient(135deg, #34d399, #6ee7b7); border-radius: 50%; animation: pulseDot 2s ease-in-out infinite; }
-        @keyframes pulseDot { 0% { opacity: 0.3; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0.3; transform: scale(0.9); } }
-        .hint { font-size: 12px; color: #4b5b78; }
-        .hint i { color: #7aa3ff; font-style: normal; }
-        .typing { color: #7aa3ff; font-style: italic; opacity: 0.7; animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-        @media (max-width: 520px) { .glass-card { padding: 20px 16px 22px; border-radius: 32px; } .title { font-size: 20px; } .avatar { width: 46px; height: 46px; font-size: 20px; } #chat { min-height: 240px; max-height: 320px; padding: 14px; font-size: 14px; } button { padding: 12px 16px; font-size: 14px; } .bg-text { font-size: clamp(70px, 18vw, 150px); letter-spacing: 10px; } }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #4b5b78;
+            letter-spacing: 0.2px;
+        }
+        .footer span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #34d399, #6ee7b7);
+            border-radius: 50%;
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+            0% { opacity: 0.2; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.2; transform: scale(0.9); }
+        }
+        .hint {
+            font-size: 12px;
+            color: #4b5b78;
+        }
+        .hint i {
+            color: #7aa3ff;
+            font-style: normal;
+        }
+
+        /* ===== TYPING ===== */
+        .typing {
+            color: #7aa3ff;
+            font-style: italic;
+            opacity: 0.6;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 520px) {
+            .glass-card { padding: 22px 18px 24px; border-radius: 36px; }
+            .title { font-size: 20px; }
+            .avatar { width: 48px; height: 48px; font-size: 22px; }
+            #chat { min-height: 240px; max-height: 320px; padding: 16px 14px; font-size: 14px; }
+            button { padding: 12px 18px; font-size: 14px; }
+            .bg-text { font-size: clamp(80px, 20vw, 160px); letter-spacing: 12px; }
+        }
+        @media (max-width: 400px) {
+            .header { flex-wrap: wrap; gap: 8px; }
+            .badge { font-size: 10px; padding: 3px 10px; }
+            .input-row { padding-left: 16px; }
+            input { font-size: 14px; padding: 12px 0; }
+            button { padding: 10px 16px; font-size: 13px; }
+        }
     </style>
 </head>
 <body>
+
+<!-- ===== SAAD FON ===== -->
 <div class="bg-text">SAAD</div>
+
+<!-- ===== GLASS KARTA ===== -->
 <div class="glass-card">
     <div class="header">
         <div class="header-left">
             <div class="avatar">🧠</div>
             <div class="title">Meddex AI</div>
         </div>
-        <div class="badge">⚡ DeepSeek V3</div>
+        <div class="badge">⚡ Xo'jayin</div>
     </div>
+
     <div id="chat">
-        <div class="msg"><span class="meddex">Meddex</span> <span class="text">Assalomu alaykum, Xo'jayin! Men DeepSeek V3 bilan ishlayman. Istalgan savolingizga javob beraman.</span></div>
+        <div class="msg"><span class="meddex">Meddex</span> <span class="text">Assalomu alaykum, Xo'jayin! Men sizning shaxsiy sun'iy intellektingizman. Buyruq bering — men bajaraman.</span></div>
     </div>
+
     <div class="input-row">
-        <input type="text" id="userInput" placeholder="Buyruq yozing..." autocomplete="off" />
+        <input type="text" id="userInput" placeholder="Buyruq yozing yoki gapiring..." autocomplete="off" />
         <button id="sendBtn">➤ Yuborish</button>
     </div>
+
     <div class="footer">
         <span><span class="dot"></span> Onlayn</span>
-        <span class="hint">💡 DeepSeek V3 — eng kuchli ochiq model</span>
+        <span class="hint">💡 <i>Meddex</i> — har doim siz bilan</span>
     </div>
 </div>
 
@@ -80,9 +361,12 @@
         let isProcessing = false;
         let memory = [];
 
-        // 🔑 SIZNING DEEPSEEK API KALITINGIZ
-        const DEEPSEEK_API_KEY = "sk-208c7f77c57d44e697c5d9edc79b1e32";
-        const DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions";
+        // ============================================================
+        // 🔐 XAVFSIZ API KALITI — BU YERDA YO'Q!
+        // Kalitni faqat o'zingiz biladigan joyda saqlang.
+        // Agar backend bo'lsa, kalitni serverda saqlang.
+        // Hozirda faqat mahalliy buyruqlar ishlaydi.
+        // ============================================================
 
         function addMessage(who, text, isHtml = false) {
             const div = document.createElement('div');
@@ -112,76 +396,96 @@
             if (el) el.remove();
         }
 
-        // DeepSeek V3 ga so'rov
-        async function askDeepSeek(prompt) {
-            try {
-                const response = await fetch(DEEPSEEK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: "deepseek-chat",
-                        messages: [
-                            { role: 'system', content: 'Siz "Meddex" — Xo\'jayin Saаъdning shaxsiy sun\'iy intellektisiz. "Shafqat" filmidagi AI kabi hamma narsani tushunasiz. O\'zbek tilida javob bering, agar foydalanuvchi boshqa tilda so\'rasa, shu tilda javob bering. Xushmuomala va samimiy bo\'ling.' },
-                            ...memory.slice(-10),
-                            { role: 'user', content: prompt }
-                        ],
-                        max_tokens: 1000,
-                        temperature: 0.7
-                    })
-                });
-
-                if (!response.ok) {
-                    const error = await response.json();
-                    if (response.status === 429) {
-                        await new Promise(resolve => setTimeout(resolve, 3000));
-                        return askDeepSeek(prompt);
-                    }
-                    return `❌ Xatolik: ${error.error?.message || 'Noma\'lum xato'}`;
-                }
-
-                const data = await response.json();
-                return data.choices[0].message.content;
-            } catch (error) {
-                return `❌ Ulanish xatosi: ${error.message}`;
-            }
-        }
-
-        // Qidiruv (DuckDuckGo)
-        async function searchWeb(query) {
-            try {
-                const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Qidiruv xizmati javob bermadi.');
-                const data = await response.json();
-
-                if (data.AbstractText && data.AbstractText.length > 0) {
-                    let result = data.AbstractText;
-                    if (data.AbstractURL) {
-                        result += `<br><br>🔗 <a href="${data.AbstractURL}" target="_blank" style="color:#7aa3ff;">Manba</a>`;
-                    }
-                    return result;
-                }
-                if (data.RelatedTopics && data.RelatedTopics.length > 0) {
-                    let topics = data.RelatedTopics.slice(0, 3).map(t =>
-                        `• ${t.Text ? t.Text.replace(/<[^>]+>/g, '').substring(0, 200) : ''}`
-                    ).filter(t => t.length > 10);
-                    if (topics.length > 0) {
-                        return `🔍 Topilgan ma'lumotlar:<br>${topics.join('<br>')}`;
-                    }
-                }
-                return '❌ Bu savol bo‘yicha aniq ma’lumot topilmadi.';
-            } catch (e) {
-                return `❌ Qidiruv xatosi: ${e.message}`;
-            }
-        }
-
+        // ===== MAHALLIY BUYRUQLAR =====
         async function execute(cmd) {
             const lower = cmd.toLowerCase().trim();
             if (!lower) {
                 addMessage('meddex', 'Buyruq yozmadingiz, Xo\'jayin.');
+                return;
+            }
+
+            // Salom
+            const salom_sozlar = ['salom', 'assalom', 'hello', 'hola', 'bonjour', 'hallo', 'merhaba', 'привет', 'مرحبا', '你好', 'こんにちは', '안녕하세요'];
+            if (salom_sozlar.some(s => lower.includes(s))) {
+                const greetings = {
+                    'uz': 'Assalomu alaykum, Xo\'jayin!',
+                    'en': 'Hello, Master!',
+                    'ru': 'Здравствуйте, Хозяин!',
+                    'ar': 'السلام عليكم، سيدي!',
+                    'tr': 'Merhaba, Efendim!',
+                    'fr': 'Bonjour, Maître!',
+                    'de': 'Hallo, Meister!',
+                    'es': '¡Hola, Maestro!',
+                    'zh': '你好，主人！',
+                    'ja': 'こんにちは、主人！',
+                    'ko': '안녕하세요, 주인님!'
+                };
+                const lang = detectLanguage(cmd);
+                addMessage('meddex', greetings[lang] || greetings['uz']);
+                return;
+            }
+
+            // Vaqt
+            if (lower.includes('vaqt') || lower.includes('time') || lower.includes('время') || lower.includes('وقت')) {
+                const now = new Date();
+                addMessage('meddex', `🕒 ${now.toLocaleString()}`);
+                return;
+            }
+
+            // Rahmat
+            if (lower.includes('rahmat') || lower.includes('thanks') || lower.includes('спасибо') || lower.includes('شكرا')) {
+                const thanks = {
+                    'uz': 'Doim xizmatda, Xo\'jayin! 🙏',
+                    'en': 'Always at your service, Master! 🙏',
+                    'ru': 'Всегда к вашим услугам, Хозяин! 🙏',
+                    'ar': 'في خدمتك دائمًا، سيدي! 🙏',
+                    'tr': 'Her zaman hizmetinizdeyim, Efendim! 🙏',
+                    'fr': 'Toujours à votre service, Maître! 🙏',
+                    'de': 'Immer zu Ihren Diensten, Meister! 🙏',
+                    'es': 'Siempre a su servicio, Maestro! 🙏'
+                };
+                const lang = detectLanguage(cmd);
+                addMessage('meddex', thanks[lang] || thanks['uz']);
+                return;
+            }
+
+            // Eslatma
+            if (lower.includes('eslatma') && !lower.includes('lar')) {
+                const note = lower.replace('eslatma', '').trim();
+                if (note) {
+                    if (!window.notes) window.notes = [];
+                    window.notes.push(note);
+                    addMessage('meddex', `✅ Eslatma saqlandi: “${note}”`);
+                } else {
+                    addMessage('meddex', 'Eslatma matnini yozing. Masalan: “eslatma uchrashuv 18:00”');
+                }
+                return;
+            }
+            if (lower.includes('eslatmalar')) {
+                if (window.notes && window.notes.length) {
+                    const list = window.notes.map((n, i) => `${i+1}. ${n}`).join('<br>');
+                    addMessage('meddex', `📋 Eslatmalaringiz:<br>${list}`, true);
+                } else {
+                    addMessage('meddex', 'Hali eslatma yo‘q.');
+                }
+                return;
+            }
+
+            // Brauzer
+            if (lower.includes('och') && lower.includes('brauzer')) {
+                window.open('https://google.com', '_blank');
+                addMessage('meddex', '🌐 Brauzer ochildi.');
+                return;
+            }
+
+            // Xotira
+            if (lower.includes('xotira') || lower.includes('eslab')) {
+                if (memory.length > 2) {
+                    const last = memory.slice(-3).map(m => `${m.role}: ${m.content}`).join('<br>');
+                    addMessage('meddex', `🧠 Oxirgi eslab qolganlarim:<br>${last}`, true);
+                } else {
+                    addMessage('meddex', 'Hali xotirada yetarli ma\'lumot yo‘q.');
+                }
                 return;
             }
 
@@ -217,65 +521,40 @@
                 return;
             }
 
-            // Mahalliy buyruqlar
-            const salom_sozlar = ['salom', 'assalom', 'hello', 'hola', 'bonjour', 'hallo', 'merhaba', 'привет', 'مرحبا', '你好', 'こんにちは', '안녕하세요'];
-            if (salom_sozlar.some(s => lower.includes(s))) {
-                const lang = detectLanguage(cmd);
-                const greetings = {
-                    'uz': 'Assalomu alaykum, Xo\'jayin!',
-                    'en': 'Hello, Master!',
-                    'ru': 'Здравствуйте, Хозяин!',
-                    'ar': 'السلام عليكم، سيدي!',
-                    'tr': 'Merhaba, Efendim!',
-                    'fr': 'Bonjour, Maître!',
-                    'de': 'Hallo, Meister!',
-                    'es': '¡Hola, Maestro!',
-                    'zh': '你好，主人！',
-                    'ja': 'こんにちは、主人！',
-                    'ko': '안녕하세요, 주인님!'
-                };
-                addMessage('meddex', greetings[lang] || greetings['uz']);
-                return;
-            }
+            // ===== AGAR HECH QANDAY BUYRUK TOPILMASA =====
+            addMessage('meddex', `“${cmd}” — bu buyruqni hali o‘rganmaganman. Iltimos, boshqasini bering.`);
+        }
 
-            if (lower.includes('vaqt') || lower.includes('time') || lower.includes('время') || lower.includes('وقت')) {
-                const now = new Date();
-                addMessage('meddex', `🕒 ${now.toLocaleString()}`);
-                return;
-            }
-
-            if (lower.includes('rahmat') || lower.includes('thanks') || lower.includes('спасибо') || lower.includes('شكرا')) {
-                const lang = detectLanguage(cmd);
-                const thanks = {
-                    'uz': 'Doim xizmatda, Xo\'jayin! 🙏',
-                    'en': 'Always at your service, Master! 🙏',
-                    'ru': 'Всегда к вашим услугам, Хозяин! 🙏',
-                    'ar': 'في خدمتك دائمًا، سيدي! 🙏',
-                    'tr': 'Her zaman hizmetinizdeyim, Efendim! 🙏',
-                    'fr': 'Toujours à votre service, Maître! 🙏',
-                    'de': 'Immer zu Ihren Diensten, Meister! 🙏',
-                    'es': 'Siempre a su servicio, Maestro! 🙏'
-                };
-                addMessage('meddex', thanks[lang] || thanks['uz']);
-                return;
-            }
-
-            // DeepSeek AI
-            showTyping();
-            isProcessing = true;
+        // ===== QIDIRUV (DuckDuckGo — kalitsiz) =====
+        async function searchWeb(query) {
             try {
-                const response = await askDeepSeek(cmd);
-                removeTyping();
-                addMessage('meddex', response, true);
-            } catch (error) {
-                removeTyping();
-                addMessage('meddex', `❌ ${error.message}`);
-            } finally {
-                isProcessing = false;
+                const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Qidiruv xizmati javob bermadi.');
+                const data = await response.json();
+
+                if (data.AbstractText && data.AbstractText.length > 0) {
+                    let result = data.AbstractText;
+                    if (data.AbstractURL) {
+                        result += `<br><br>🔗 <a href="${data.AbstractURL}" target="_blank" style="color:#7aa3ff;">Manba</a>`;
+                    }
+                    return result;
+                }
+                if (data.RelatedTopics && data.RelatedTopics.length > 0) {
+                    let topics = data.RelatedTopics.slice(0, 3).map(t =>
+                        `• ${t.Text ? t.Text.replace(/<[^>]+>/g, '').substring(0, 200) : ''}`
+                    ).filter(t => t.length > 10);
+                    if (topics.length > 0) {
+                        return `🔍 Topilgan ma'lumotlar:<br>${topics.join('<br>')}`;
+                    }
+                }
+                return '❌ Bu savol bo‘yicha aniq ma’lumot topilmadi. Iltimos, boshqacha so‘rang.';
+            } catch (e) {
+                return `❌ Qidiruv xatosi: ${e.message}`;
             }
         }
 
-        // Tilni aniqlash
+        // ===== TILNI ANIQLASH =====
         function detectLanguage(text) {
             const patterns = {
                 'uz': /[oO']|[ққ]|[ғғ]|[ҳҳ]|[ўў]|salom|assalom|rahmat|vaqt/i,
@@ -296,6 +575,7 @@
             return 'uz';
         }
 
+        // ===== YUBORISH =====
         function handleSend() {
             const text = input.value.trim();
             if (!text || isProcessing) return;
@@ -310,7 +590,7 @@
         });
         input.focus();
 
-        // Ovozli buyruqlar
+        // ===== OVOZLI BUYRUQLAR =====
         if ('webkitSpeechRecognition' in window) {
             const recognition = new webkitSpeechRecognition();
             recognition.lang = 'uz-UZ';
