@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Meddex AI — Sun'iy intellekt</title>
+    <title>Meddex AI — DeepSeek V3</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800;900&display=swap" rel="stylesheet">
@@ -12,7 +11,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 16px; background: #080b12; overflow: hidden; position: relative; }
         body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(30,80,255,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(120,80,255,0.05) 0%, transparent 50%), radial-gradient(ellipse at 50% 100%, rgba(0,200,255,0.03) 0%, transparent 40%); z-index: 0; pointer-events: none; }
-        body::after { content: ''; position: fixed; inset: 0; background-image: radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.1), transparent), radial-gradient(2px 2px at 30% 70%, rgba(255,255,255,0.08), transparent), radial-gradient(2px 2px at 50% 10%, rgba(255,255,255,0.12), transparent), radial-gradient(2px 2px at 70% 80%, rgba(255,255,255,0.06), transparent), radial-gradient(2px 2px at 90% 40%, rgba(255,255,255,0.09), transparent); background-size: 300px 300px; z-index: 0; pointer-events: none; }
         .bg-text { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: clamp(100px, 25vw, 280px); font-weight: 900; color: rgba(255,255,255,0.02); letter-spacing: 16px; text-transform: uppercase; font-family: 'Inter', sans-serif; pointer-events: none; user-select: none; z-index: 0; white-space: nowrap; text-shadow: 0 0 80px rgba(60,140,255,0.05), 0 0 160px rgba(60,140,255,0.02); animation: pulseGlow 6s ease-in-out infinite; }
         @keyframes pulseGlow { 0% { text-shadow: 0 0 80px rgba(60,140,255,0.05), 0 0 160px rgba(60,140,255,0.02); } 50% { text-shadow: 0 0 120px rgba(100,180,255,0.08), 0 0 240px rgba(60,140,255,0.04); } 100% { text-shadow: 0 0 80px rgba(60,140,255,0.05), 0 0 160px rgba(60,140,255,0.02); } }
         .glass-card { position: relative; z-index: 1; max-width: 480px; width: 100%; background: rgba(12,18,30,0.60); backdrop-filter: blur(20px); border-radius: 48px; padding: 32px 24px 28px; border: 1px solid rgba(80,160,255,0.08); box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(60,140,255,0.04) inset; }
@@ -52,30 +50,25 @@
     </style>
 </head>
 <body>
-
 <div class="bg-text">SAAD</div>
-
 <div class="glass-card">
     <div class="header">
         <div class="header-left">
             <div class="avatar">🧠</div>
             <div class="title">Meddex AI</div>
         </div>
-        <div class="badge">⚡ Xo'jayin</div>
+        <div class="badge">⚡ DeepSeek V3</div>
     </div>
-
     <div id="chat">
-        <div class="msg"><span class="meddex">Meddex</span> <span class="text">Assalomu alaykum, Xo'jayin Saаъd! Men "Shafqat" filmidagi AI kabi hamma narsani tushunaman. Buyruq bering — men bajaraman.</span></div>
+        <div class="msg"><span class="meddex">Meddex</span> <span class="text">Assalomu alaykum, Xo'jayin! Men DeepSeek V3 bilan ishlayman. Istalgan savolingizga javob beraman.</span></div>
     </div>
-
     <div class="input-row">
-        <input type="text" id="userInput" placeholder="Buyruq yozing yoki “Meddex” deb chaqiring..." autocomplete="off" />
+        <input type="text" id="userInput" placeholder="Buyruq yozing..." autocomplete="off" />
         <button id="sendBtn">➤ Yuborish</button>
     </div>
-
     <div class="footer">
         <span><span class="dot"></span> Onlayn</span>
-        <span class="hint">💡 <i>Meddex</i> — 24/7 sizning xizmatingizda</span>
+        <span class="hint">💡 DeepSeek V3 — eng kuchli ochiq model</span>
     </div>
 </div>
 
@@ -84,24 +77,25 @@
         const chat = document.getElementById('chat');
         const input = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
-
-        // ⚠️ O'ZINGIZNING OPENAI API KALITINGIZNI SHU YERGA YOZING
-        const OPENAI_API_KEY = "sk-proj-1234567890abcdef"; // <-- O'ZGARTIRING!
-
         let isProcessing = false;
+        let memory = [];
+
+        // 🔑 SIZNING DEEPSEEK API KALITINGIZ
+        const DEEPSEEK_API_KEY = "sk-208c7f77c57d44e697c5d9edc79b1e32";
+        const DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions";
 
         function addMessage(who, text, isHtml = false) {
             const div = document.createElement('div');
             div.className = 'msg' + (who === 'user' ? ' user-msg' : '');
             const label = who === 'meddex' ? 'Meddex' : 'Siz';
             const cls = who === 'meddex' ? 'meddex' : 'user';
-            if (isHtml) {
-                div.innerHTML = `<span class="${cls}">${label}</span> <span class="text">${text}</span>`;
-            } else {
-                div.innerHTML = `<span class="${cls}">${label}</span> <span class="text">${text}</span>`;
-            }
+            const content = isHtml ? text : text.replace(/\n/g, '<br>');
+            div.innerHTML = `<span class="${cls}">${label}</span> <span class="text">${content}</span>`;
             chat.appendChild(div);
             chat.scrollTop = chat.scrollHeight;
+            if (who === 'user') memory.push({ role: 'user', content: text });
+            else memory.push({ role: 'assistant', content: text });
+            if (memory.length > 50) memory.shift();
         }
 
         function showTyping() {
@@ -118,31 +112,33 @@
             if (el) el.remove();
         }
 
-        async function askAI(prompt) {
-            if (!OPENAI_API_KEY || OPENAI_API_KEY === "sk-proj-1234567890abcdef") {
-                return "⚠️ OpenAI API kaliti o'rnatilmagan! Iltimos, kalitni kodingizga yozing.";
-            }
-
+        // DeepSeek V3 ga so'rov
+        async function askDeepSeek(prompt) {
             try {
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                const response = await fetch(DEEPSEEK_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${OPENAI_API_KEY}`
+                        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
                     },
                     body: JSON.stringify({
-                        model: 'gpt-3.5-turbo',
+                        model: "deepseek-chat",
                         messages: [
-                            { role: 'system', content: 'Siz "Meddex" — Xo\'jayin Saаъdning shaxsiy sun\'iy intellektisiz. Siz "Shafqat" filmidagi AI kabi hamma narsani tushunasiz va har qanday buyruqni bajarasiz. O\'zbek tilida javob bering. Xushmuomala va samimiy bo\'ling.' },
+                            { role: 'system', content: 'Siz "Meddex" — Xo\'jayin Saаъdning shaxsiy sun\'iy intellektisiz. "Shafqat" filmidagi AI kabi hamma narsani tushunasiz. O\'zbek tilida javob bering, agar foydalanuvchi boshqa tilda so\'rasa, shu tilda javob bering. Xushmuomala va samimiy bo\'ling.' },
+                            ...memory.slice(-10),
                             { role: 'user', content: prompt }
                         ],
-                        max_tokens: 500,
+                        max_tokens: 1000,
                         temperature: 0.7
                     })
                 });
 
                 if (!response.ok) {
                     const error = await response.json();
+                    if (response.status === 429) {
+                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        return askDeepSeek(prompt);
+                    }
                     return `❌ Xatolik: ${error.error?.message || 'Noma\'lum xato'}`;
                 }
 
@@ -153,48 +149,151 @@
             }
         }
 
+        // Qidiruv (DuckDuckGo)
+        async function searchWeb(query) {
+            try {
+                const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Qidiruv xizmati javob bermadi.');
+                const data = await response.json();
+
+                if (data.AbstractText && data.AbstractText.length > 0) {
+                    let result = data.AbstractText;
+                    if (data.AbstractURL) {
+                        result += `<br><br>🔗 <a href="${data.AbstractURL}" target="_blank" style="color:#7aa3ff;">Manba</a>`;
+                    }
+                    return result;
+                }
+                if (data.RelatedTopics && data.RelatedTopics.length > 0) {
+                    let topics = data.RelatedTopics.slice(0, 3).map(t =>
+                        `• ${t.Text ? t.Text.replace(/<[^>]+>/g, '').substring(0, 200) : ''}`
+                    ).filter(t => t.length > 10);
+                    if (topics.length > 0) {
+                        return `🔍 Topilgan ma'lumotlar:<br>${topics.join('<br>')}`;
+                    }
+                }
+                return '❌ Bu savol bo‘yicha aniq ma’lumot topilmadi.';
+            } catch (e) {
+                return `❌ Qidiruv xatosi: ${e.message}`;
+            }
+        }
+
         async function execute(cmd) {
             const lower = cmd.toLowerCase().trim();
             if (!lower) {
-                addMessage('meddex', 'Buyruq yozmadingiz, Xo\'jayin. Yana bir bor ayting.');
+                addMessage('meddex', 'Buyruq yozmadingiz, Xo\'jayin.');
                 return;
             }
 
-            // Mahalliy buyruqlar (tezkor javob)
-            if (lower.includes('salom') || lower.includes('assalom')) {
-                addMessage('meddex', 'Assalomu alaykum, Xo\'jayin! Sizni ko‘rib xursandman. Qanday yordam kerak?');
+            // Qidiruv
+            const searchKeywords = ['qidir', 'search', 'izla', 'top', 'qidiruv'];
+            let isSearch = false;
+            let searchQuery = lower;
+            for (const kw of searchKeywords) {
+                if (lower.startsWith(kw)) {
+                    isSearch = true;
+                    searchQuery = lower.replace(kw, '').trim();
+                    break;
+                }
+            }
+            if (!isSearch && (lower.includes('ob-havo') || lower.includes('yangilik') || lower.includes('narx') || lower.includes('kurs') || lower.includes('bugun'))) {
+                isSearch = true;
+                searchQuery = lower;
+            }
+
+            if (isSearch && searchQuery.length > 0) {
+                showTyping();
+                isProcessing = true;
+                try {
+                    const result = await searchWeb(searchQuery);
+                    removeTyping();
+                    addMessage('meddex', `🔎 ${result}`, true);
+                } catch (e) {
+                    removeTyping();
+                    addMessage('meddex', `❌ ${e.message}`);
+                } finally {
+                    isProcessing = false;
+                }
                 return;
             }
-            if (lower.includes('vaqt')) {
+
+            // Mahalliy buyruqlar
+            const salom_sozlar = ['salom', 'assalom', 'hello', 'hola', 'bonjour', 'hallo', 'merhaba', 'привет', 'مرحبا', '你好', 'こんにちは', '안녕하세요'];
+            if (salom_sozlar.some(s => lower.includes(s))) {
+                const lang = detectLanguage(cmd);
+                const greetings = {
+                    'uz': 'Assalomu alaykum, Xo\'jayin!',
+                    'en': 'Hello, Master!',
+                    'ru': 'Здравствуйте, Хозяин!',
+                    'ar': 'السلام عليكم، سيدي!',
+                    'tr': 'Merhaba, Efendim!',
+                    'fr': 'Bonjour, Maître!',
+                    'de': 'Hallo, Meister!',
+                    'es': '¡Hola, Maestro!',
+                    'zh': '你好，主人！',
+                    'ja': 'こんにちは、主人！',
+                    'ko': '안녕하세요, 주인님!'
+                };
+                addMessage('meddex', greetings[lang] || greetings['uz']);
+                return;
+            }
+
+            if (lower.includes('vaqt') || lower.includes('time') || lower.includes('время') || lower.includes('وقت')) {
                 const now = new Date();
-                addMessage('meddex', `🕒 Hozirgi vaqt: ${now.toTimeString().slice(0,8)}`);
-                return;
-            }
-            if (lower.includes('rahmat')) {
-                addMessage('meddex', 'Doim xizmatda, Xo\'jayin! 🙏');
-                return;
-            }
-            if (lower.includes('och') && lower.includes('brauzer')) {
-                window.open('https://google.com', '_blank');
-                addMessage('meddex', '🌐 Brauzer ochildi.');
+                addMessage('meddex', `🕒 ${now.toLocaleString()}`);
                 return;
             }
 
-            // AI ga so'rov yuborish
+            if (lower.includes('rahmat') || lower.includes('thanks') || lower.includes('спасибо') || lower.includes('شكرا')) {
+                const lang = detectLanguage(cmd);
+                const thanks = {
+                    'uz': 'Doim xizmatda, Xo\'jayin! 🙏',
+                    'en': 'Always at your service, Master! 🙏',
+                    'ru': 'Всегда к вашим услугам, Хозяин! 🙏',
+                    'ar': 'في خدمتك دائمًا، سيدي! 🙏',
+                    'tr': 'Her zaman hizmetinizdeyim, Efendim! 🙏',
+                    'fr': 'Toujours à votre service, Maître! 🙏',
+                    'de': 'Immer zu Ihren Diensten, Meister! 🙏',
+                    'es': 'Siempre a su servicio, Maestro! 🙏'
+                };
+                addMessage('meddex', thanks[lang] || thanks['uz']);
+                return;
+            }
+
+            // DeepSeek AI
             showTyping();
             isProcessing = true;
             try {
-                const response = await askAI(cmd);
+                const response = await askDeepSeek(cmd);
                 removeTyping();
-                // Javobni xatboshilarga ajratish
-                const formatted = response.replace(/\n/g, '<br>');
-                addMessage('meddex', formatted, true);
+                addMessage('meddex', response, true);
             } catch (error) {
                 removeTyping();
-                addMessage('meddex', `❌ Xatolik: ${error.message}`);
+                addMessage('meddex', `❌ ${error.message}`);
             } finally {
                 isProcessing = false;
             }
+        }
+
+        // Tilni aniqlash
+        function detectLanguage(text) {
+            const patterns = {
+                'uz': /[oO']|[ққ]|[ғғ]|[ҳҳ]|[ўў]|salom|assalom|rahmat|vaqt/i,
+                'ru': /[а-яА-Я]|привет|спасибо|время/i,
+                'en': /[a-zA-Z]|hello|thanks|time|weather/i,
+                'ar': /[اإأآببتثجحخدذرزسشصضطظعغفقكلمنهوي]|مرحبا|شكرا/i,
+                'tr': /[çÇğĞıİöÖşŞüÜ]|merhaba|teşekkür|saat/i,
+                'fr': /[éèêëàâîôûç]|bonjour|merci|temps/i,
+                'de': /[äöüÄÖÜß]|hallo|danke|zeit/i,
+                'es': /[ñÑáéíóú]|hola|gracias|tiempo/i,
+                'zh': /[\u4e00-\u9fff]|你好|谢谢/i,
+                'ja': /[\u3040-\u309f\u30a0-\u30ff]|こんにちは|ありがとう/i,
+                'ko': /[\uac00-\ud7af]|안녕하세요|감사합니다/i
+            };
+            for (const [lang, pattern] of Object.entries(patterns)) {
+                if (pattern.test(text)) return lang;
+            }
+            return 'uz';
         }
 
         function handleSend() {
@@ -209,12 +308,32 @@
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') handleSend();
         });
-
         input.focus();
 
-        // API kaliti tekshiruvi
-        if (!OPENAI_API_KEY || OPENAI_API_KEY === "sk-proj-1234567890abcdef") {
-            addMessage('meddex', '⚠️ OpenAI API kaliti o\'rnatilmagan. Iltimos, kodning boshida `OPENAI_API_KEY` ga kalitingizni yozing.');
+        // Ovozli buyruqlar
+        if ('webkitSpeechRecognition' in window) {
+            const recognition = new webkitSpeechRecognition();
+            recognition.lang = 'uz-UZ';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === ' ' && e.ctrlKey) {
+                    e.preventDefault();
+                    recognition.start();
+                    addMessage('meddex', '🎤 Gapingizni yozmoqdaman...');
+                }
+            });
+
+            recognition.onresult = (e) => {
+                const spoken = e.results[0][0].transcript;
+                addMessage('user', '🎤 ' + spoken);
+                execute(spoken);
+            };
+
+            recognition.onerror = () => {
+                addMessage('meddex', '❌ Ovoz eshitilmadi. Qayta urinib ko\'ring.');
+            };
         }
     })();
 </script>
