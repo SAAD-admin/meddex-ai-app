@@ -3,293 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meddex AI — Control Panel</title>
+    <title>Meddex AI — Shafqat 2026 Interface</title>
     <style>
+        /* Rasmga asosan kiberpank va neon ranglar tizimi */
         :root {
-            --bg-main: #121214;
-            --bg-card: #1a1a1e;
-            --text-color: #ffffff;
-            --accent-color: #00e5c0;
-            --color-success: #4caf50;
-            --color-warning: #ff9800;
+            --bg-base: #0a0512;
+            --bg-card: #130a22;
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00e5c0;
+            --text-main: #e2d9f3;
+            --text-dark: #624b87;
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+
         body {
-            background-color: var(--bg-main);
-            color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
             padding: 20px;
             min-height: 100vh;
+            box-sizing: border-box;
         }
-        header {
+
+        /* Yuqori boshqaruv paneli */
+        .dash-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #2a2a30;
-            padding-bottom: 16px;
-            margin-bottom: 24px;
+            border-bottom: 2px solid #24143d;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
-        .pulse {
-            background-color: rgba(76, 175, 80, 0.2);
-            color: var(--color-success);
-            padding: 8px 16px;
-            border-radius: 30px;
-            animation: pulseeffect 2s infinite;
-            font-size: 0.9rem;
-            font-weight: bold;
+
+        .dash-header h1 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 229, 192, 0.4);
+            margin: 0;
         }
-        @keyframes pulseeffect {
-            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
-        }
-        /* Moslashuvchan va matn sig'adigan Grid tizimi */
-        .main-grid {
+
+        /* Rasmdagi kabi Moslashuvchan Setka (Grid) */
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            align-items: start;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
         }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Neon Kartalar */
         .card {
-            background: var(--bg-card);
-            border: 1px solid #2a2a30;
-            border-radius: 12px;
+            background-color: var(--bg-card);
+            border: 1px solid #2e184f;
+            border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        /* 3D Konteyner dizayni va joylashuvi */
-        #three-container {
-            width: 100%;
-            height: 350px;
-            background: #111113;
-            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 255, 0.05);
+            position: relative;
             overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid #2a2a30;
         }
-        .workspace-chat {
-            height: 380px;
-            overflow-y: auto;
-            border-bottom: 1px solid #2a2a30;
-            padding-right: 10px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
         }
-        .msg {
-            padding: 12px 16px;
-            border-radius: 12px;
-            max-width: 85%;
-            line-height: 1.4;
-            font-size: 0.95rem;
-        }
-        .msg.user {
-            background: #007bff;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-        .msg.ai {
-            background: #232329;
-            color: #ffffff;
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-            border-left: 3px solid var(--accent-color);
-        }
-        .input-bar {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            background: #121214;
-            padding: 4px;
-            border-radius: 30px;
-            border: 1px solid #2a2a30;
-        }
-        .input-bar input {
-            flex: 1;
-            padding: 12px 20px;
-            border: none;
-            background: transparent;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-        }
-        .btn-send {
-            background: var(--accent-color);
-            color: #000;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.1s ease;
-        }
-        .btn-send:active {
-            transform: scale(0.9);
-        }
-        /* Progress barlar */
-        .metrics-zone {
+
+        /* Statik tahliliy panellar */
+        .sidebar-metrics {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-top: 15px;
         }
-        .bar-group label {
-            font-size: 0.85rem;
-            color: #a1a1aa;
-            display: block;
-            margin-bottom: 6px;
+
+        .metric-box {
+            background: #190e2c;
+            border: 1px solid #361b5c;
+            border-radius: 10px;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .progress-bar {
-            background-color: #2a2a30;
-            border-radius: 8px;
-            height: 8px;
+
+        .metric-title { color: var(--text-dark); font-size: 0.85rem; font-weight: bold; }
+        .metric-num { color: var(--neon-cyan); font-weight: bold; font-size: 1.2rem; }
+
+        /* Asosiy Markaziy hudud */
+        .main-workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* 3D Meddex Sferasi joylashadigan qism (Visualizer) */
+        #three-container {
             width: 100%;
-            overflow: hidden;
+            height: 280px;
+            background-color: #05020a;
+            border-radius: 16px;
+            border: 1px solid #23123a;
+            position: relative;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
         }
-        .progress {
-            background: linear-gradient(90deg, #007bff, var(--accent-color));
-            height: 100%;
+
+        /* Chat muhiti */
+        .chat-section {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
         }
+
+        .workspace-chat {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Xabarlar dizayni */
+        .workspace-msg {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+            line-height: 1.4;
+            font-size: 0.95rem;
+        }
+
+        .workspace-msg.user {
+            background-color: #2b124c;
+            border: 1px solid var(--neon-pink);
+            color: #fff;
+            margin-left: auto;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
+        }
+
+        .workspace-msg.ai {
+            background-color: #131a2e;
+            border: 1px solid var(--neon-cyan);
+            color: var(--text-main);
+            margin-right: auto;
+            box-shadow: 0 0 10px rgba(0, 229, 192, 0.1);
+        }
+
+        /* Matn kiritish paneli */
+        .input-bar {
+            display: flex;
+            gap: 12px;
+            background: #170d29;
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: 1px solid #361b5c;
+        }
+
+        .input-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            padding: 8px;
+            outline: none;
+        }
+
+        .input-bar input::placeholder {
+            color: var(--text-dark);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, var(--neon-pink), #bf00bf);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.4);
+            transition: transform 0.2s, filter 0.2s;
+        }
+
+        .send-btn:hover {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        /* Scrollbar dizayni */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: #321953; border-radius: 10px; }
     </style>
-    <!-- Three.js Kutubxonasi -->
+    <!-- Three.js kutubxonasi integratsiyasi -->
     <script src="https://cloudflare.com"></script>
 </head>
 <body>
 
-    <header>
-        <h2>Meddex AI — "Shafqat" System Panel</h2>
-        <div class="pulse">Tizim Faol</div>
+    <header class="dash-header">
+        <h1>Meddex Tizimi // Obyekt Faolligi</h1>
+        <div style="color: var(--neon-pink); font-weight: bold; font-size: 0.9rem;">● CORE ONLINE</div>
     </header>
 
-    <div class="main-grid">
-        <!-- Chap tomonda 3D vizualizatsiya va ko'rsatkichlar -->
-        <div>
-            <div id="three-container"></div>
+    <div class="dashboard-grid">
+        
+        <!-- Chap menyu - Tahliliy Ma'lumotlar -->
+        <div class="sidebar-metrics">
             <div class="card">
-                <h3>Live Performance</h3>
-                <div class="metrics-zone">
-                    <div class="bar-group">
-                        <label>Tushunish (94%)</label>
-                        <div class="progress-bar"><div class="progress" style="width: 94%;"></div></div>
+                <h3 style="margin-top:0; color: var(--neon-pink); font-size: 1rem;">Tizim Holati</h3>
+                <div style="display:flex; flex-direction:column; gap:10px; margin-top:15px;">
+                    <div class="metric-box">
+                        <span class="metric-title">XABARLAR</span>
+                        <span class="metric-num">14,203</span>
                     </div>
-                    <div class="bar-group">
-                        <label>Empatiya darajasi (91%)</label>
-                        <div class="progress-bar"><div class="progress" style="width: 91%;"></div></div>
+                    <div class="metric-box">
+                        <span class="metric-title">KUCHLANISH</span>
+                        <span class="metric-num">0.6 ms</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-title">XOTIRA</span>
+                        <span class="metric-num">58%</span>
                     </div>
                 </div>
             </div>
+            
+            <div class="card" style="flex: 1; min-height: 200px;">
+                <h3 style="margin-top:0; color: var(--neon-cyan); font-size: 1rem;">Empatiya Matritsasi</h3>
+                <p style="font-size:0.85rem; color: var(--text-dark); line-height: 1.5;">
+                    «Shafqat» (2026) protokoli faollashtirilgan. Meddex foydalanuvchining hissiy holatini tahlil qilmoqda va unga moslashmoqda.
+                </p>
+            </div>
         </div>
 
-        <!-- O'ng tomonda asosiy Chat interfeysi -->
-        <div class="card">
-            <h3>Central Workspace</h3>
-            <div class="workspace-chat" id="workspaceChat">
-                <div class="msg ai"><b>Meddex AI:</b> Assalomu alaykum. Men muloqotga tayyorman, his-tuyg'ularingizni va har qanday texnik yoki kreativ vazifangizni tahlil qila olaman.</div>
+        <!-- O'ng tomondagi Markaziy Ishchi Maydon -->
+        <div class="main-workspace">
+            
+            <!-- 3D Neon Meddex Yadrosi -->
+            <div id="three-container"></div>
+
+            <!-- Interaktiv Chat Paneli -->
+            <div class="card chat-section">
+                <div class="workspace-chat" id="workspaceChat">
+                    <div class="workspace-msg ai">
+                        <b>Meddex AI:</b> Tizim muvaffaqiyatli yuklandi. Men «Shafqat» filmidagi Meddex sun'iy intellektiman. Sizni tinglayapman, qanday texnik yoki kreativ topshiriq bor?
+                    </div>
+                </div>
+                
+                <div class="input-bar">
+                    <!-- DeepSeek adashgan ID (userinput) tuzatildi -->
+                    <input type="text" id="userInput" placeholder="Buyruq matnini kiriting yoki loyihani ulashing..." autocomplete="off">
+                    <button class="send-btn" id="sendBtn">➤</button>
+                </div>
             </div>
-            <div class="input-bar">
-                <input type="text" id="userInput" placeholder="Xabaringizni yozing..." autocomplete="off">
-                <button class="btn-send" id="sendBtn">➤</button>
-            </div>
+
         </div>
     </div>
 
 <script>
-    // --- 1. COCHING / API CONFIGURATION ---
-    // Bepul Gemini API kalitingizni shu yerga joylashtiring
-    const GEMINI_API_KEY = "Sizning_Google_Gemini_API_Kalitingiz"; 
+    // --- 1. CONFIGURATION (MUTLAQO BEPUL GOOGLE GEMINI API) ---
+    const GEMINI_API_KEY = "Sizning_Google_Gemini_API_Kalitingiz"; // AI Studio'dan olingan kalit
     const GEMINI_URL = `https://googleapis.com{GEMINI_API_KEY}`;
 
-    // --- 2. THREE.JS 3D AVATAR SYSTEM ---
+    // --- 2. THREE.JS ORQALI NEON 3D AVATAR KODLARI ---
     const container = document.getElementById('three-container');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x111113);
-
+    
+    // Kamera sozlamalari
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
-    camera.position.set(0, 0, 5);
+    camera.position.set(0, 0, 4);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
 
-    // Yorug'lik effektlari
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    // Kinodagi kiberpank muhit chiroqlari
+    const ambientLight = new THREE.AmbientLight(0x11052c, 1);
     scene.add(ambientLight);
-    const dirLight = new THREE.DirectionalLight(0x00e5c0, 0.8);
-    dirLight.position.set(3, 5, 3);
-    scene.add(dirLight);
 
-    // Meddex 3D Avatar asosi (Sci-Fi Sfera shakli va uning ichki yadrosi)
-    const avatarGroup = new THREE.Group();
-    
-    const coreGeo = new THREE.SphereGeometry(0.8, 32, 32);
-    const coreMat = new THREE.MeshStandardMaterial({ 
-        color: 0x00e5c0, 
-        roughness: 0.2,
-        metalness: 0.8,
-        emissive: 0x005544
-    });
-    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    avatarGroup.add(coreMesh);
+    const pinkLight = new THREE.PointLight(0xff00ff, 2, 50);
+    pinkLight.position.set(-2, 2, 2);
+    scene.add(pinkLight);
 
-    // 🌟 OG'IZ (Mouth Lip-Sync obyekti)
-    const mouthGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.05, 32);
-    const mouthMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const mouthMesh = new THREE.Mesh(mouthGeo, mouthMat);
-    mouthMesh.position.set(0, -0.2, 0.75);
-    mouthMesh.rotation.x = Math.PI / 2;
-    avatarGroup.add(mouthMesh);
-
-    scene.add(avatarGroup);
-
-    // Animatsiya dinamikasi o'zgaruvchilari
-    let mouthScale = 0;
-    function animate() {
-        requestAnimationFrame(animate);
-        
-        // Kinodagi Meddex kabi nafas oluvchi sci-fi pulsatsiya effekti
-        avatarGroup.position.y = Math.sin(Date.now() * 0.0015) * 0.06;
-        avatarGroup.rotation.y += 0.005;
-        
-        // Ovoz chiqayotganda og'iz modelining dinamik kengayishi (Lip-Sync)
-        mouthMesh.scale.set(1, 1, 1 + mouthScale * 8);
-
-        renderer.render(scene, camera);
-    }
-    animate();
-
-    // --- 3. WEB AUDIO API SIMULATION (LIP-SYNC) ---
-    function startLipSyncAnimation(text) {
-        if (!('speechSynthesis' in window)) return;
-        
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ru-RU'; // O'zbek tili uchun muqobil eng yaqin va ravon audio til
-
-        // Gapirish ritmiga moslab og'izni qimirlatish
-        utterance.onboundary = (event) => {
-            if (event.name === 'word') {
-                mouthScale = 0.7;
-                setTimeout(() => { mouthScale = 0; }, 120);
-            }
-        };
-        utterance.onend = () => { mouthScale = 0; };
-        
-        window.speechSynthesis.speak(utterance);
-    }
-
-    // --- 4. GEMINI AI CORE INTEGRATION ---
-    const chatBox = document.getElementById('workspaceChat');
-    const userInput = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-
-    function addMessage(sender, text) {
-        const msgDiv = document.createElement('div');
+    const cyanLight = new THREE.PointLight(0x00e5c0, 2, 50);
+    cyanLight.position.set(2, -2, 2);
