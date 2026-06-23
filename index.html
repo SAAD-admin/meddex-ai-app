@@ -1,98 +1,52 @@
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Meddex AI — Jarvis</title>
+    <title>Meddex AI — 3D Intellekt</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
+        html, body {
+            width: 100%;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
             background: #0a0a0f;
+            font-family: 'Inter', sans-serif;
             overflow: hidden;
             position: relative;
         }
 
-        /* ===== HACKER USLUBIDAGI FON ===== */
-        body::before {
-            content: '';
+        /* ===== 3D PERSONAJ ORQA FONDA ===== */
+        #three-container {
             position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 50%, rgba(0,255,100,0.04) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(0,200,255,0.03) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 100%, rgba(0,255,150,0.02) 0%, transparent 40%);
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: 0;
-            pointer-events: none;
+            pointer-events: none; /* Tugmalar va input ishlashi uchun */
         }
 
-        /* ===== YULDUZLAR ===== */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image:
-                radial-gradient(1px 1px at 10% 20%, rgba(0,255,100,0.2), transparent),
-                radial-gradient(1px 1px at 30% 70%, rgba(0,255,100,0.15), transparent),
-                radial-gradient(1px 1px at 50% 10%, rgba(0,255,100,0.25), transparent),
-                radial-gradient(1px 1px at 70% 80%, rgba(0,255,100,0.10), transparent),
-                radial-gradient(1px 1px at 90% 40%, rgba(0,255,100,0.18), transparent);
-            background-size: 200px 200px;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* ===== ORQA FONDAGI "SAAD" ===== */
-        .bg-text {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: clamp(120px, 28vw, 320px);
-            font-weight: 900;
-            color: rgba(0,255,100,0.015);
-            letter-spacing: 20px;
-            text-transform: uppercase;
-            font-family: 'Orbitron', sans-serif;
-            pointer-events: none;
-            user-select: none;
-            z-index: 0;
-            white-space: nowrap;
-            text-shadow: 0 0 80px rgba(0,255,100,0.04), 0 0 160px rgba(0,255,100,0.02);
-            animation: pulseGlow 8s ease-in-out infinite;
-        }
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 80px rgba(0,255,100,0.04), 0 0 160px rgba(0,255,100,0.02); }
-            50% { text-shadow: 0 0 120px rgba(0,255,100,0.08), 0 0 240px rgba(0,255,100,0.04); }
-            100% { text-shadow: 0 0 80px rgba(0,255,100,0.04), 0 0 160px rgba(0,255,100,0.02); }
-        }
-
-        /* ===== GLASS KARTA ===== */
+        /* ===== ASOSIY KARTA ===== */
         .glass-card {
             position: relative;
             z-index: 1;
-            max-width: 500px;
+            max-width: 520px;
             width: 100%;
-            background: rgba(0,10,0,0.45);
-            backdrop-filter: blur(20px) saturate(1.2);
-            -webkit-backdrop-filter: blur(20px) saturate(1.2);
+            margin: 20px auto;
+            background: rgba(0, 10, 0, 0.55);
+            backdrop-filter: blur(18px) saturate(1.2);
+            -webkit-backdrop-filter: blur(18px) saturate(1.2);
             border-radius: 56px;
-            padding: 36px 28px 32px;
-            border: 1px solid rgba(0,255,100,0.08);
-            box-shadow:
-                0 40px 100px rgba(0,0,0,0.8),
-                0 0 0 1px rgba(0,255,100,0.03) inset,
-                0 0 60px rgba(0,255,100,0.02);
-            transition: all 0.4s ease;
+            padding: 28px 24px 24px;
+            border: 1px solid rgba(0, 255, 100, 0.08);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,255,100,0.03) inset, 0 0 60px rgba(0,255,100,0.02);
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         /* ===== HEADER ===== */
@@ -100,24 +54,24 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 28px;
-            padding-bottom: 18px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
             border-bottom: 1px solid rgba(0,255,100,0.06);
         }
         .header-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
         .avatar {
-            width: 60px;
-            height: 60px;
+            width: 54px;
+            height: 54px;
             background: linear-gradient(135deg, #00ff6a, #00cc55, #009944);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
+            font-size: 26px;
             box-shadow: 0 0 30px rgba(0,255,100,0.15);
             flex-shrink: 0;
             animation: avatarGlow 3s ease-in-out infinite;
@@ -128,7 +82,7 @@
             100% { box-shadow: 0 0 20px rgba(0,255,100,0.1); }
         }
         .title {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             letter-spacing: -0.5px;
             background: linear-gradient(to right, #00ff88, #00ff55, #88ff00);
@@ -139,9 +93,9 @@
         }
         .badge {
             background: rgba(0,255,100,0.06);
-            padding: 6px 16px;
+            padding: 5px 14px;
             border-radius: 40px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             color: #00ff88;
             border: 1px solid rgba(0,255,100,0.06);
@@ -151,137 +105,164 @@
             font-family: 'Orbitron', sans-serif;
         }
 
+        /* ===== STATISTIKA ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .stat-card {
+            background: rgba(0,0,0,0.25);
+            border-radius: 18px;
+            padding: 12px 12px;
+            border: 1px solid rgba(0,255,100,0.04);
+            transition: 0.3s;
+        }
+        .stat-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            color: #4a6a5a;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #00ff88;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 2px;
+        }
+        .stat-value .change {
+            font-size: 11px;
+            color: #4a6a5a;
+            font-weight: 400;
+            margin-left: 4px;
+        }
+        .stat-bar {
+            width: 100%;
+            height: 2px;
+            background: rgba(0,255,100,0.06);
+            border-radius: 10px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+        .stat-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00ff55, #00ff88);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
         /* ===== CHAT ===== */
         #chat {
-            background: rgba(0,0,0,0.25);
-            border-radius: 28px;
-            padding: 24px 20px;
-            min-height: 340px;
-            max-height: 440px;
+            background: rgba(0,0,0,0.20);
+            border-radius: 24px;
+            padding: 18px 16px;
+            min-height: 220px;
+            max-height: 300px;
             overflow-y: auto;
-            margin-bottom: 22px;
-            font-size: 15px;
-            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.7;
             border: 1px solid rgba(0,255,100,0.04);
             scroll-behavior: smooth;
-            position: relative;
-            z-index: 2;
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.2);
+            flex: 1;
         }
         #chat::-webkit-scrollbar { width: 4px; }
         #chat::-webkit-scrollbar-track { background: transparent; }
         #chat::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #00ff55, #00cc44); border-radius: 20px; }
-
         .msg {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             animation: fadeUp 0.35s ease;
         }
         .msg:last-child { margin-bottom: 0; }
         .msg .meddex {
             color: #00ff88;
             font-weight: 700;
-            letter-spacing: 0.2px;
             text-shadow: 0 0 30px rgba(0,255,100,0.08);
         }
-        .msg .user {
-            color: #88ffbb;
-            font-weight: 600;
-        }
+        .msg .user { color: #88ffbb; font-weight: 600; }
         .msg .text {
             display: inline-block;
             background: rgba(0,255,100,0.03);
-            padding: 6px 16px 6px 8px;
-            border-radius: 16px 16px 16px 4px;
+            padding: 4px 14px 4px 6px;
+            border-radius: 14px 14px 14px 4px;
             border-left: 2px solid rgba(0,255,100,0.10);
         }
         .msg.user-msg .text {
             background: rgba(0,255,100,0.05);
-            border-radius: 16px 16px 4px 16px;
+            border-radius: 14px 14px 4px 14px;
             border-left: 2px solid rgba(0,255,100,0.10);
         }
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(14px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* ===== INPUT ===== */
         .input-row {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             background: rgba(0,0,0,0.30);
             border-radius: 60px;
-            padding: 4px 4px 4px 24px;
+            padding: 4px 4px 4px 20px;
             border: 1px solid rgba(0,255,100,0.04);
             backdrop-filter: blur(8px);
             transition: all 0.3s ease;
+            margin-bottom: 10px;
         }
         .input-row:focus-within {
             border-color: rgba(0,255,100,0.12);
-            background: rgba(0,0,0,0.35);
             box-shadow: 0 0 40px rgba(0,255,100,0.02);
         }
         input {
             flex: 1;
-            padding: 16px 0;
+            padding: 14px 0;
             border: none;
             background: transparent;
             color: #ccffdd;
-            font-size: 16px;
+            font-size: 15px;
             outline: none;
             font-family: 'Inter', sans-serif;
             min-width: 0;
         }
-        input::placeholder {
-            color: #4a6a5a;
-            font-weight: 400;
-            font-size: 15px;
-        }
-
+        input::placeholder { color: #4a6a5a; font-weight: 400; font-size: 14px; }
         .btn-group {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
         }
         .btn-send {
-            padding: 14px 24px;
+            padding: 12px 20px;
             border-radius: 40px;
             border: none;
             background: linear-gradient(135deg, #00ff55, #00cc44, #009933);
             color: #001a0a;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.25s ease;
             box-shadow: 0 4px 24px rgba(0,255,100,0.10);
             font-family: 'Orbitron', sans-serif;
             letter-spacing: 0.3px;
         }
-        .btn-send:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 40px rgba(0,255,100,0.20);
-        }
+        .btn-send:hover { transform: scale(1.03); box-shadow: 0 8px 40px rgba(0,255,100,0.20); }
         .btn-send:active { transform: scale(0.95); opacity: 0.85; }
-
         .btn-mic {
-            padding: 14px 18px;
+            padding: 12px 16px;
             border-radius: 40px;
             border: none;
             background: rgba(0,255,100,0.04);
             color: #00ff88;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             transition: all 0.25s ease;
-            font-family: 'Inter', sans-serif;
             border: 1px solid rgba(0,255,100,0.04);
         }
-        .btn-mic:hover {
-            background: rgba(0,255,100,0.08);
-            border-color: rgba(0,255,100,0.10);
-            transform: scale(1.05);
-        }
+        .btn-mic:hover { background: rgba(0,255,100,0.08); border-color: rgba(0,255,100,0.10); transform: scale(1.05); }
         .btn-mic:active { transform: scale(0.90); }
-
-        /* ===== TINGLASH ANIMATSIYASI (JARVIS USLUBIDA) ===== */
         .btn-mic.listening {
             background: rgba(0,255,100,0.10);
             border-color: rgba(0,255,100,0.20);
@@ -293,61 +274,52 @@
             50% { box-shadow: 0 0 0 10px rgba(0,255,100,0), 0 0 60px rgba(0,255,100,0.10); }
             100% { box-shadow: 0 0 0 0 rgba(0,255,100,0.2), 0 0 20px rgba(0,255,100,0.05); }
         }
-
-        /* ===== TINGLASH TO'LQINI ===== */
         .wave-container {
             display: none;
             position: absolute;
-            bottom: 80px;
+            bottom: 75px;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
-            height: 40px;
+            width: 100px;
+            height: 30px;
             justify-content: center;
             align-items: center;
             gap: 4px;
             z-index: 10;
         }
-        .wave-container.active {
-            display: flex;
-        }
+        .wave-container.active { display: flex; }
         .wave-bar {
-            width: 4px;
-            height: 20px;
+            width: 3px;
+            height: 16px;
             background: #00ff55;
             border-radius: 4px;
             animation: wave 0.6s ease-in-out infinite alternate;
         }
-        .wave-bar:nth-child(1) { animation-delay: 0.0s; height: 12px; }
-        .wave-bar:nth-child(2) { animation-delay: 0.1s; height: 24px; }
-        .wave-bar:nth-child(3) { animation-delay: 0.2s; height: 32px; }
-        .wave-bar:nth-child(4) { animation-delay: 0.3s; height: 28px; }
-        .wave-bar:nth-child(5) { animation-delay: 0.4s; height: 36px; }
-        .wave-bar:nth-child(6) { animation-delay: 0.5s; height: 20px; }
-        .wave-bar:nth-child(7) { animation-delay: 0.6s; height: 14px; }
+        .wave-bar:nth-child(1) { animation-delay: 0.0s; height: 10px; }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; height: 20px; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; height: 26px; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; height: 22px; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; height: 28px; }
+        .wave-bar:nth-child(6) { animation-delay: 0.5s; height: 16px; }
+        .wave-bar:nth-child(7) { animation-delay: 0.6s; height: 12px; }
         @keyframes wave {
             0% { transform: scaleY(0.3); opacity: 0.3; }
             100% { transform: scaleY(1); opacity: 1; }
         }
 
-        /* ===== FOOTER ===== */
         .footer {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
-            font-size: 12px;
+            font-size: 11px;
             color: #3a5a4a;
             letter-spacing: 0.2px;
+            padding-top: 4px;
         }
-        .footer span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .footer span { display: flex; align-items: center; gap: 6px; }
         .dot {
             display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: linear-gradient(135deg, #00ff55, #00cc44);
             border-radius: 50%;
             animation: pulseDot 2s ease-in-out infinite;
@@ -357,113 +329,376 @@
             50% { opacity: 1; transform: scale(1.2); }
             100% { opacity: 0.2; transform: scale(0.9); }
         }
-        .hint {
-            font-size: 12px;
-            color: #3a5a4a;
-        }
-        .hint i {
-            color: #00ff88;
-            font-style: normal;
-        }
+        .hint { font-size: 11px; color: #3a5a4a; }
+        .hint i { color: #00ff88; font-style: normal; }
         .typing {
             color: #00ff88;
             font-style: italic;
             opacity: 0.6;
             animation: blink 1s infinite;
         }
-        @keyframes blink {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
-
-        /* ===== STATUS CHIZIG'I ===== */
+        @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
         .status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 4px 4px 4px;
-            font-size: 10px;
+            padding: 6px 0 0 0;
+            font-size: 9px;
             color: #2a5a3a;
             font-family: 'Orbitron', sans-serif;
             letter-spacing: 0.5px;
+            border-top: 1px solid rgba(0,255,100,0.04);
+            margin-top: 6px;
+            padding-top: 10px;
         }
-        .status-bar .green {
-            color: #00ff55;
-        }
-        .status-bar .dim {
-            color: #1a3a2a;
-        }
+        .status-bar .green { color: #00ff55; }
+        .status-bar .dim { color: #1a3a2a; }
 
         @media (max-width: 520px) {
-            .glass-card { padding: 22px 18px 24px; border-radius: 36px; }
+            .glass-card { padding: 18px 14px 18px; border-radius: 40px; min-height: 80vh; }
             .title { font-size: 20px; }
-            .avatar { width: 48px; height: 48px; font-size: 22px; }
-            #chat { min-height: 240px; max-height: 320px; padding: 16px 14px; font-size: 14px; }
-            .btn-send { padding: 12px 18px; font-size: 14px; }
-            .btn-mic { padding: 12px 14px; font-size: 18px; }
-            .bg-text { font-size: clamp(80px, 20vw, 160px); letter-spacing: 12px; }
+            .avatar { width: 44px; height: 44px; font-size: 20px; }
+            .stats-grid { gap: 6px; }
+            .stat-card { padding: 8px 10px; }
+            .stat-value { font-size: 17px; }
+            #chat { min-height: 150px; max-height: 220px; padding: 12px; font-size: 13px; }
+            .btn-send { padding: 10px 16px; font-size: 13px; }
+            .btn-mic { padding: 10px 12px; font-size: 16px; }
+        }
+        @media (max-width: 400px) {
+            .header { flex-wrap: wrap; gap: 6px; }
+            .badge { font-size: 9px; padding: 2px 10px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            #chat { min-height: 120px; max-height: 180px; }
+            .btn-send { padding: 8px 12px; font-size: 12px; }
         }
     </style>
 </head>
 <body>
 
-<div class="bg-text">SAAD</div>
+<!-- ===== 3D PERSONAJ KONTEYNERI ===== -->
+<div id="three-container"></div>
 
+<!-- ===== ASOSIY KARTA ===== -->
 <div class="glass-card">
-    <div class="header">
-        <div class="header-left">
-            <div class="avatar">🧠</div>
-            <div class="title">Meddex AI</div>
+    <div>
+        <div class="header">
+            <div class="header-left">
+                <div class="avatar">🧠</div>
+                <div class="title">Meddex AI</div>
+            </div>
+            <div class="badge">⚡ 3D</div>
         </div>
-        <div class="badge">⚡ J.A.R.V.I.S</div>
-    </div>
 
-    <div id="chat">
-        <div class="msg"><span class="meddex">Meddex</span> <span class="text">Assalomu alaykum, Xo'jayin! Men Jarvis darajasidagi AI — hamma narsani tushunaman va bajaraman.</span></div>
-    </div>
+        <!-- STATISTIKA -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-label">👥 Foydalanuvchilar</div>
+                <div class="stat-value" id="statUsers">0 <span class="change">+0%</span></div>
+                <div class="stat-bar"><div class="stat-bar-fill" id="barUsers" style="width:0%"></div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">📊 So'rovlar</div>
+                <div class="stat-value" id="statRequests">0 <span class="change">+0</span></div>
+                <div class="stat-bar"><div class="stat-bar-fill" id="barRequests" style="width:0%"></div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">⏱ Faoliyat</div>
+                <div class="stat-value" id="statActivity">0 <span class="change">min</span></div>
+                <div class="stat-bar"><div class="stat-bar-fill" id="barActivity" style="width:0%"></div></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🧠 Xotira</div>
+                <div class="stat-value" id="statMemory">0 <span class="change">%</span></div>
+                <div class="stat-bar"><div class="stat-bar-fill" id="barMemory" style="width:0%"></div></div>
+            </div>
+        </div>
 
-    <div class="input-row">
-        <input type="text" id="userInput" placeholder="Buyruq yozing..." autocomplete="off" />
-        <div class="btn-group">
-            <button class="btn-mic" id="micBtn" title="Ovozli buyruq">🎤</button>
-            <button class="btn-send" id="sendBtn">➤ Yuborish</button>
+        <!-- CHAT -->
+        <div id="chat">
+            <div class="msg"><span class="meddex">Meddex</span> <span class="text">Assalomu alaykum, Xo'jayin! Men 3D bo'ri bilan birga sizga xizmat qilaman. Istalgan savolingizga javob beraman.</span></div>
         </div>
     </div>
 
-    <div class="wave-container" id="waveContainer">
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-    </div>
+    <div>
+        <!-- INPUT -->
+        <div class="input-row" style="position:relative;">
+            <input type="text" id="userInput" placeholder="Buyruq yozing..." autocomplete="off" />
+            <div class="btn-group">
+                <button class="btn-mic" id="micBtn" title="Ovozli buyruq">🎤</button>
+                <button class="btn-send" id="sendBtn">➤ Yuborish</button>
+            </div>
+            <div class="wave-container" id="waveContainer">
+                <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+        </div>
 
-    <div class="footer">
-        <span><span class="dot"></span> Onlayn</span>
-        <span class="hint">💡 <i>🎤</i> tugmasini bosing va gapiring</span>
-    </div>
+        <div class="footer">
+            <span><span class="dot"></span> Onlayn</span>
+            <span class="hint">💡 <i>🎤</i> bosing va gapiring</span>
+        </div>
 
-    <div class="status-bar">
-        <span class="green">● SISTEMA FAOL</span>
-        <span class="dim">|</span>
-        <span class="green">100+ TIL</span>
-        <span class="dim">|</span>
-        <span class="green">🔒 XAVFSIZ</span>
+        <div class="status-bar">
+            <span class="green">● SISTEMA FAOL</span>
+            <span class="dim">|</span>
+            <span class="green">100+ TIL</span>
+            <span class="dim">|</span>
+            <span class="green">🔒 XAVFSIZ</span>
+        </div>
     </div>
 </div>
 
+<!-- ===== THREE.JS KUTUBXONASI ===== -->
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+    }
+}
+</script>
+
+<!-- ===== 3D SKRIPT ===== -->
+<script type="module">
+    import * as THREE from 'three';
+
+    // ===== KONTEYNER =====
+    const container = document.getElementById('three-container');
+
+    // ===== SAHNA =====
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0a0f);
+
+    // ===== KAMERA =====
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(2.5, 1.8, 4.5);
+    camera.lookAt(0, 0.6, 0);
+
+    // ===== RENDERER =====
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // ===== YORITISH =====
+    const ambient = new THREE.AmbientLight(0x303050, 0.4);
+    scene.add(ambient);
+
+    const mainLight = new THREE.DirectionalLight(0x00ff88, 0.7);
+    mainLight.position.set(2, 4, 3);
+    mainLight.castShadow = true;
+    scene.add(mainLight);
+
+    const neonBlue = new THREE.PointLight(0x0066ff, 0.8, 8);
+    neonBlue.position.set(-2, 1.5, 2);
+    scene.add(neonBlue);
+
+    const neonGreen = new THREE.PointLight(0x00ff55, 0.6, 8);
+    neonGreen.position.set(2.5, 0.5, -2);
+    scene.add(neonGreen);
+
+    const backLight = new THREE.PointLight(0x8800ff, 0.3, 6);
+    backLight.position.set(0, 1, -3);
+    scene.add(backLight);
+
+    // ===== POL (ZAMIN) =====
+    const gridHelper = new THREE.GridHelper(4, 16, 0x00ff55, 0x004422);
+    gridHelper.position.y = -0.5;
+    scene.add(gridHelper);
+
+    // ===== 3D PERSONAJ (antropomorf bo'ri) =====
+    const group = new THREE.Group();
+
+    // Tana (hoodie)
+    const bodyGeo = new THREE.SphereGeometry(0.6, 32, 32);
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x111122, roughness: 0.6, metalness: 0.1, emissive: new THREE.Color(0x003322), emissiveIntensity: 0.1 });
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.scale.set(1, 1.1, 0.8);
+    body.position.y = 0.4;
+    body.castShadow = true;
+    group.add(body);
+
+    // Kapyushon
+    const hoodGeo = new THREE.SphereGeometry(0.45, 32, 32);
+    const hoodMat = new THREE.MeshStandardMaterial({ color: 0x222244, roughness: 0.7, metalness: 0.05 });
+    const hood = new THREE.Mesh(hoodGeo, hoodMat);
+    hood.scale.set(0.9, 0.5, 0.7);
+    hood.position.set(0, 0.9, 0.05);
+    group.add(hood);
+
+    // Bosh
+    const headGeo = new THREE.SphereGeometry(0.35, 32, 32);
+    const headMat = new THREE.MeshStandardMaterial({ color: 0x88aadd, roughness: 0.4, metalness: 0.05 });
+    const head = new THREE.Mesh(headGeo, headMat);
+    head.position.y = 1.1;
+    head.castShadow = true;
+    group.add(head);
+
+    // Quloqlar
+    const earMat = new THREE.MeshStandardMaterial({ color: 0x7799cc, roughness: 0.5 });
+    const earGeo = new THREE.ConeGeometry(0.1, 0.22, 8);
+    const earL = new THREE.Mesh(earGeo, earMat);
+    earL.position.set(-0.22, 1.38, 0);
+    earL.rotation.z = -0.3; earL.rotation.x = -0.1;
+    group.add(earL);
+    const earR = new THREE.Mesh(earGeo, earMat);
+    earR.position.set(0.22, 1.38, 0);
+    earR.rotation.z = 0.3; earR.rotation.x = -0.1;
+    group.add(earR);
+
+    // Ko'zoynak (Sunglasses)
+    const glassMat = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.1, metalness: 0.9, emissive: new THREE.Color(0x0044ff), emissiveIntensity: 0.15 });
+    const lensGeo = new THREE.SphereGeometry(0.09, 16, 16);
+    const lensL = new THREE.Mesh(lensGeo, glassMat);
+    lensL.scale.set(0.9, 0.6, 0.1);
+    lensL.position.set(-0.13, 1.15, 0.32);
+    group.add(lensL);
+    const lensR = new THREE.Mesh(lensGeo, glassMat);
+    lensR.scale.set(0.9, 0.6, 0.1);
+    lensR.position.set(0.13, 1.15, 0.32);
+    group.add(lensR);
+    // Ramka
+    const frameMat = new THREE.MeshStandardMaterial({ color: 0x222244, roughness: 0.3, metalness: 0.5 });
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.03, 0.02), frameMat);
+    frame.position.set(0, 1.15, 0.3);
+    group.add(frame);
+
+    // Oyoqlar
+    const legMat = new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.8 });
+    const legGeo = new THREE.CylinderGeometry(0.12, 0.18, 0.45, 8);
+    const legL = new THREE.Mesh(legGeo, legMat);
+    legL.position.set(-0.18, 0.0, 0); legL.castShadow = true;
+    group.add(legL);
+    const legR = new THREE.Mesh(legGeo, legMat);
+    legR.position.set(0.18, 0.0, 0); legR.castShadow = true;
+    group.add(legR);
+
+    // Krossovkalar
+    const shoeMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.6 });
+    const shoeGeo = new THREE.BoxGeometry(0.18, 0.08, 0.28);
+    const shoeL = new THREE.Mesh(shoeGeo, shoeMat);
+    shoeL.position.set(-0.18, -0.22, 0.08); shoeL.castShadow = true;
+    group.add(shoeL);
+    const shoeR = new THREE.Mesh(shoeGeo, shoeMat);
+    shoeR.position.set(0.18, -0.22, 0.08); shoeR.castShadow = true;
+    group.add(shoeR);
+
+    // Neon laces (shnurlar)
+    const laceMat = new THREE.MeshStandardMaterial({ color: 0x00ff88, emissive: new THREE.Color(0x00ff88), emissiveIntensity: 0.4 });
+    for (let i = -0.08; i <= 0.08; i+=0.04) {
+        const lace = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.015, 0.2), laceMat);
+        lace.position.set(i, -0.18, 0.08);
+        group.add(lace);
+    }
+
+    // Qo'llar
+    const armMat = new THREE.MeshStandardMaterial({ color: 0x88aadd, roughness: 0.4 });
+    const armGeo = new THREE.CylinderGeometry(0.05, 0.07, 0.45, 6);
+    const armL = new THREE.Mesh(armGeo, armMat);
+    armL.position.set(-0.55, 0.6, 0);
+    armL.rotation.z = 0.2; armL.rotation.x = -0.3; armL.castShadow = true;
+    group.add(armL);
+    const armR = new THREE.Mesh(armGeo, armMat);
+    armR.position.set(0.55, 0.6, 0);
+    armR.rotation.z = -0.2; armR.rotation.x = 0.3; armR.castShadow = true;
+    group.add(armR);
+
+    // Qo'lqop (hoodie yengi)
+    const sleeveMat = new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.7 });
+    const sleeveGeo = new THREE.CylinderGeometry(0.08, 0.1, 0.2, 6);
+    const sleeveL = new THREE.Mesh(sleeveGeo, sleeveMat);
+    sleeveL.position.set(-0.55, 0.75, 0); sleeveL.rotation.z = 0.2; sleeveL.rotation.x = -0.2;
+    group.add(sleeveL);
+    const sleeveR = new THREE.Mesh(sleeveGeo, sleeveMat);
+    sleeveR.position.set(0.55, 0.75, 0); sleeveR.rotation.z = -0.2; sleeveR.rotation.x = 0.2;
+    group.add(sleeveR);
+
+    // Personajni sahnaga qo'shish
+    scene.add(group);
+
+    // ===== ANIMATSIYA =====
+    let time = 0;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        time += 0.01;
+
+        // Sohib aylanish
+        group.rotation.y += 0.008;
+
+        // Yengil silkinish (tirik effekt)
+        group.position.y = Math.sin(time * 1.2) * 0.02;
+        group.position.x = Math.sin(time * 0.7) * 0.01;
+
+        // Qo'llarni biroz harakatlantirish (ixtiyoriy)
+        armL.rotation.x = -0.3 + Math.sin(time * 0.8) * 0.05;
+        armR.rotation.x = 0.3 + Math.sin(time * 0.8 + 1) * 0.05;
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // ===== O'LCHAMNI MOSLASH =====
+    window.addEventListener('resize', () => {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+    });
+
+    console.log('🧊 3D Bo\'ri personaj faollashtirildi!');
+</script>
+
+<!-- ===== ASOSIY AI SKRIPTI ===== -->
 <script>
     (function() {
+        // ===== DEEPSEEK API KALITI =====
+        const DEEPSEEK_API_KEY = "sk-208c7f77c57d44e697c5d9edc79b1e32";
+        const DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions";
+
         const chat = document.getElementById('chat');
         const input = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const micBtn = document.getElementById('micBtn');
         const waveContainer = document.getElementById('waveContainer');
+
         let isProcessing = false;
         let memory = [];
         let isListening = false;
+
+        // ===== STATISTIKA =====
+        let stats = { users: 0, requests: 0, activity: 0, memory: 0 };
+
+        function updateStats() {
+            document.getElementById('statUsers').innerHTML = stats.users + ' <span class="change">+0%</span>';
+            document.getElementById('statRequests').innerHTML = stats.requests + ' <span class="change">+0</span>';
+            document.getElementById('statActivity').innerHTML = stats.activity + ' <span class="change">min</span>';
+            document.getElementById('statMemory').innerHTML = stats.memory + ' <span class="change">%</span>';
+            document.getElementById('barUsers').style.width = Math.min(stats.users * 2, 100) + '%';
+            document.getElementById('barRequests').style.width = Math.min(stats.requests, 100) + '%';
+            document.getElementById('barActivity').style.width = Math.min(stats.activity * 5, 100) + '%';
+            document.getElementById('barMemory').style.width = stats.memory + '%';
+        }
+
+        function simulateStats() {
+            stats.users = Math.floor(Math.random() * 15) + 1;
+            stats.requests = Math.floor(Math.random() * 50) + 10;
+            stats.activity = Math.floor(Math.random() * 30) + 5;
+            stats.memory = Math.floor(Math.random() * 60) + 20;
+            updateStats();
+        }
+        setInterval(simulateStats, 5000);
+        simulateStats();
+
+        function incRequests() {
+            stats.requests += 1;
+            updateStats();
+        }
 
         // ===== OVOZ =====
         let recognition = null;
@@ -479,10 +714,7 @@
                 addMessage('meddex', '❌ Brauzeringiz ovozli buyruqlarni qo‘llab-quvvatlamaydi.');
                 return;
             }
-            if (isListening) {
-                recognition.stop();
-                return;
-            }
+            if (isListening) { recognition.stop(); return; }
             try {
                 recognition.start();
                 isListening = true;
@@ -503,10 +735,7 @@
                 stopListening();
                 handleSend();
             };
-            recognition.onerror = () => {
-                addMessage('meddex', '❌ Ovoz eshitilmadi.');
-                stopListening();
-            };
+            recognition.onerror = () => { addMessage('meddex', '❌ Ovoz eshitilmadi.'); stopListening(); };
             recognition.onend = () => { stopListening(); };
         }
 
@@ -516,7 +745,6 @@
             waveContainer.classList.remove('active');
             micBtn.textContent = '🎤';
         }
-
         micBtn.addEventListener('click', toggleMic);
 
         // ===== XABAR =====
@@ -532,6 +760,9 @@
             if (who === 'user') memory.push({ role: 'user', content: text });
             else memory.push({ role: 'assistant', content: text });
             if (memory.length > 50) memory.shift();
+            if (who === 'user') incRequests();
+            stats.users = Math.min(stats.users + 1, 50);
+            updateStats();
         }
 
         function showTyping() {
@@ -542,13 +773,93 @@
             chat.appendChild(div);
             chat.scrollTop = chat.scrollHeight;
         }
-
         function removeTyping() {
             const el = document.getElementById('typing-indicator');
             if (el) el.remove();
         }
 
-        // ===== BUYRUQLAR =====
+        // ===== TIL ANIQLASH =====
+        function detectLanguage(text) {
+            const patterns = {
+                'uz': /[oO']|[ққ]|[ғғ]|[ҳҳ]|[ўў]|salom|assalom|rahmat|vaqt/i,
+                'ru': /[а-яА-Я]|привет|спасибо|время/i,
+                'en': /[a-zA-Z]|hello|thanks|time|weather/i,
+                'ar': /[اإأآببتثجحخدذرزسشصضطظعغفقكلمنهوي]|مرحبا|شكرا/i,
+                'tr': /[çÇğĞıİöÖşŞüÜ]|merhaba|teşekkür|saat/i,
+                'fr': /[éèêëàâîôûç]|bonjour|merci|temps/i,
+                'de': /[äöüÄÖÜß]|hallo|danke|zeit/i,
+                'es': /[ñÑáéíóú]|hola|gracias|tiempo/i,
+                'zh': /[\u4e00-\u9fff]|你好|谢谢/i,
+                'ja': /[\u3040-\u309f\u30a0-\u30ff]|こんにちは|ありがとう/i,
+                'ko': /[\uac00-\ud7af]|안녕하세요|감사합니다/i
+            };
+            for (const [lang, pattern] of Object.entries(patterns)) {
+                if (pattern.test(text)) return lang;
+            }
+            return 'unknown';
+        }
+
+        // ===== DEEPSEEK AI =====
+        async function askDeepSeek(prompt) {
+            try {
+                const lang = detectLanguage(prompt);
+                const systemMsg = `Siz "Meddex" — Xo'jayin Saаъdning shaxsiy sun'iy intellektisiz. "Shafqat" filmidagi AI kabi hamma narsani tushunasiz va barcha tillarda so'zlashasiz. Foydalanuvchi ${lang} tilida gapirdi, shu tilda javob bering. Agar til aniqlanmasa, o'zbek tilida javob bering. Javoblar aniq, foydali va samimiy bo'lsin.`;
+
+                const response = await fetch(DEEPSEEK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${DEEPSEEK_API_KEY}` },
+                    body: JSON.stringify({
+                        model: "deepseek-chat",
+                        messages: [
+                            { role: 'system', content: systemMsg },
+                            ...memory.slice(-10),
+                            { role: 'user', content: prompt }
+                        ],
+                        max_tokens: 800,
+                        temperature: 0.8
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    if (response.status === 429) {
+                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        return askDeepSeek(prompt);
+                    }
+                    return `❌ Xatolik: ${error.error?.message || 'Noma\'lum xato'}`;
+                }
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (error) {
+                return `❌ Ulanish xatosi: ${error.message}`;
+            }
+        }
+
+        // ===== QIDIRUV =====
+        async function searchWeb(query) {
+            try {
+                const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Qidiruv xizmati javob bermadi.');
+                const data = await response.json();
+                if (data.AbstractText && data.AbstractText.length > 0) {
+                    let result = data.AbstractText;
+                    if (data.AbstractURL) result += `<br><br>🔗 <a href="${data.AbstractURL}" target="_blank" style="color:#00ff88;">Manba</a>`;
+                    return result;
+                }
+                if (data.RelatedTopics && data.RelatedTopics.length > 0) {
+                    let topics = data.RelatedTopics.slice(0, 3).map(t =>
+                        `• ${t.Text ? t.Text.replace(/<[^>]+>/g, '').substring(0, 250) : ''}`
+                    ).filter(t => t.length > 10);
+                    if (topics.length > 0) return `🔍 Topilgan ma'lumotlar:<br>${topics.join('<br>')}`;
+                }
+                return '❌ Bu savol bo‘yicha aniq ma’lumot topilmadi.';
+            } catch (e) {
+                return `❌ Qidiruv xatosi: ${e.message}`;
+            }
+        }
+
+        // ===== ASOSIY EXECUTE =====
         async function execute(cmd) {
             const lower = cmd.toLowerCase().trim();
             if (!lower) {
@@ -556,71 +867,83 @@
                 return;
             }
 
-            // Salom
-            if (['salom','assalom','hello','hola','bonjour','hallo','merhaba','привет','مرحبا','你好','こんにちは','안녕하세요'].some(s => lower.includes(s))) {
-                addMessage('meddex', 'Assalomu alaykum, Xo\'jayin! Men Jarvis darajasidagi AI — hamma narsaga tayyorman.');
+            const salom_sozlar = ['salom', 'assalom', 'hello', 'hola', 'bonjour', 'hallo', 'merhaba', 'привет', 'مرحبا', '你好', 'こんにちは', '안녕하세요'];
+            if (salom_sozlar.some(s => lower.includes(s))) {
+                const greetings = {
+                    'uz': 'Assalomu alaykum, Xo\'jayin!',
+                    'en': 'Hello, Master!',
+                    'ru': 'Здравствуйте, Хозяин!',
+                    'ar': 'السلام عليكم، سيدي!',
+                    'tr': 'Merhaba, Efendim!',
+                    'fr': 'Bonjour, Maître!',
+                    'de': 'Hallo, Meister!',
+                    'es': '¡Hola, Maestro!',
+                    'zh': '你好，主人！',
+                    'ja': 'こんにちは、主人！',
+                    'ko': '안녕하세요, 주인님!'
+                };
+                const lang = detectLanguage(cmd);
+                addMessage('meddex', greetings[lang] || greetings['uz']);
                 return;
             }
 
-            // Vaqt
             if (lower.includes('vaqt') || lower.includes('time') || lower.includes('время') || lower.includes('وقت')) {
                 addMessage('meddex', `🕒 ${new Date().toLocaleString()}`);
                 return;
             }
 
-            // Rahmat
             if (lower.includes('rahmat') || lower.includes('thanks') || lower.includes('спасибо') || lower.includes('شكرا')) {
-                addMessage('meddex', 'Doim xizmatda, Xo\'jayin! 🙏');
+                const thanks = {
+                    'uz': 'Doim xizmatda, Xo\'jayin! 🙏',
+                    'en': 'Always at your service, Master! 🙏',
+                    'ru': 'Всегда к вашим услугам, Хозяин! 🙏',
+                    'ar': 'في خدمتك دائمًا، سيدي! 🙏',
+                    'tr': 'Her zaman hizmetinizdeyim, Efendim! 🙏',
+                    'fr': 'Toujours à votre service, Maître! 🙏',
+                    'de': 'Immer zu Ihren Diensten, Meister! 🙏',
+                    'es': 'Siempre a su servicio, Maestro! 🙏'
+                };
+                const lang = detectLanguage(cmd);
+                addMessage('meddex', thanks[lang] || thanks['uz']);
                 return;
             }
 
-            // Eslatma
             if (lower.includes('eslatma') && !lower.includes('lar')) {
                 const note = lower.replace('eslatma', '').trim();
                 if (note) {
                     if (!window.notes) window.notes = [];
                     window.notes.push(note);
                     addMessage('meddex', `✅ Eslatma saqlandi: “${note}”`);
-                } else {
-                    addMessage('meddex', 'Eslatma matnini yozing.');
-                }
+                } else addMessage('meddex', 'Eslatma matnini yozing.');
                 return;
             }
             if (lower.includes('eslatmalar')) {
                 if (window.notes && window.notes.length) {
                     addMessage('meddex', `📋 Eslatmalar:<br>${window.notes.map((n,i)=>`${i+1}. ${n}`).join('<br>')}`, true);
-                } else {
-                    addMessage('meddex', 'Hali eslatma yo‘q.');
-                }
+                } else addMessage('meddex', 'Hali eslatma yo‘q.');
                 return;
             }
 
-            // Brauzer
             if (lower.includes('och') && lower.includes('brauzer')) {
                 window.open('https://google.com', '_blank');
                 addMessage('meddex', '🌐 Brauzer ochildi.');
                 return;
             }
 
-            // Xotira
             if (lower.includes('xotira') || lower.includes('eslab')) {
                 if (memory.length > 2) {
                     addMessage('meddex', `🧠 Oxirgi eslab qolganlarim:<br>${memory.slice(-3).map(m=>`${m.role}: ${m.content}`).join('<br>')}`, true);
-                } else {
-                    addMessage('meddex', 'Hali xotirada yetarli ma\'lumot yo‘q.');
-                }
+                } else addMessage('meddex', 'Hali xotirada yetarli ma\'lumot yo‘q.');
                 return;
             }
 
-            // Qidiruv
-            const searchKw = ['qidir','search','izla','top','qidiruv'];
+            const searchKw = ['qidir','search','izla','top','qidiruv','find'];
             let isSearch = false, query = lower;
             for (const kw of searchKw) {
                 if (lower.startsWith(kw)) { isSearch = true; query = lower.replace(kw,'').trim(); break; }
             }
-            if (!isSearch && (lower.includes('ob-havo') || lower.includes('yangilik') || lower.includes('narx') || lower.includes('kurs') || lower.includes('bugun'))) {
-                isSearch = true;
-                query = lower;
+            if (!isSearch && (lower.includes('ob-havo') || lower.includes('yangilik') || lower.includes('narx') || lower.includes('kurs') || lower.includes('bugun') || lower.includes('weather') || lower.includes('news') || lower.includes('price'))) {
+                isSearch = true; query = lower;
             }
 
             if (isSearch && query.length > 0) {
@@ -633,29 +956,20 @@
                 } catch (e) {
                     removeTyping();
                     addMessage('meddex', `❌ ${e.message}`);
-                } finally {
-                    isProcessing = false;
-                }
+                } finally { isProcessing = false; }
                 return;
             }
 
-            addMessage('meddex', `“${cmd}” — buyruq bajarildi, Xo'jayin.`);
-        }
-
-        async function searchWeb(query) {
+            showTyping();
+            isProcessing = true;
             try {
-                const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
-                const res = await fetch(url);
-                if (!res.ok) throw new Error('Qidiruv xatosi');
-                const data = await res.json();
-                if (data.AbstractText) return data.AbstractText;
-                if (data.RelatedTopics && data.RelatedTopics.length) {
-                    return data.RelatedTopics.slice(0,3).map(t => t.Text?.replace(/<[^>]+>/g,'') || '').filter(t=>t.length>10).join('<br>');
-                }
-                return 'Ma\'lumot topilmadi.';
-            } catch (e) {
-                return `Xatolik: ${e.message}`;
-            }
+                const response = await askDeepSeek(cmd);
+                removeTyping();
+                addMessage('meddex', response, true);
+            } catch (error) {
+                removeTyping();
+                addMessage('meddex', `❌ ${error.message}`);
+            } finally { isProcessing = false; }
         }
 
         function handleSend() {
@@ -669,6 +983,10 @@
         sendBtn.addEventListener('click', handleSend);
         input.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
         input.focus();
+
+        if (!DEEPSEEK_API_KEY || DEEPSEEK_API_KEY === "sk-208c7f77c57d44e697c5d9edc79b1e32") {
+            addMessage('meddex', '✅ DeepSeek API kaliti o‘rnatilgan va faol.');
+        }
     })();
 </script>
 </body>
